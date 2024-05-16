@@ -36,28 +36,26 @@ function calcularTaxa() {
         // Adicione outras bandeiras aqui
     };
 
-    var resultado = "";
+    var resultadoHTML = "";
 
     for (var bandeira in taxasPorBandeira) {
         var taxa = taxasPorBandeira[bandeira][parcelas] || taxasPorBandeira[bandeira]['default'];
         var taxaDebito = taxasPorBandeira[bandeira]['default']; // Taxa para débito
-        var valorSubtraido = valorSemTaxa * taxaDebito
-        var taxaTotalDebito = valorSemTaxa - valorSubtraido
+        var taxaTotalDebito = valorSemTaxa - (valorSemTaxa * taxaDebito);
         var taxaTotal = valorSemTaxa * taxa;
-        console.log("Taxa Total: ", taxaTotal, "Valor sem taxa: ", valorSemTaxa, "Taxa: ", taxa, "Valor com taxa: " ,totalComTaxa)
         var totalComTaxa = valorSemTaxa + taxaTotal;
         var assumirpeju = valorSemTaxa - taxaTotal;
 
-
-        resultado += "Bandeira: " + bandeira.toUpperCase() + "  ";
-        resultado += "(" + parcelas + "x): " + (taxa * 100).toFixed(2) + "%<br>" ;
-        resultado += "------------------------------------------" + "<br>"
-        resultado += "No Débito (Você recebe): " + taxaTotalDebito.toFixed(2) + "<br>";
-        resultado += "Cliente pagando as taxas: R$ " + totalComTaxa.toFixed(2) + "<br>";
-        resultado += "Assumindo as taxas (Você recebe): R$ " + assumirpeju.toFixed(2) + "<br><br>";
+        resultadoHTML += "<br><li class='resultado-item'>";
+        resultadoHTML += "<span class='item-label'>" + bandeira.toUpperCase() + "</span>";
+        resultadoHTML += "<span class='item-value'> Taxa: " + (taxa * 100).toFixed(2) + "%</span><br>";
+        resultadoHTML += "<span class='item-value'>No Débito (Você recebe): R$ " + taxaTotalDebito.toFixed(2) + "</span><br>";
+        resultadoHTML += "<span class='item-value'>Cliente pagando as taxas: R$ " + "<strong>" + totalComTaxa.toFixed(2) + "</strong>" + "</span><br>";
+        resultadoHTML += "<span class='item-value'>Assumindo as taxas (Você recebe): R$ " + assumirpeju.toFixed(2) + "</span><br>";
+        resultadoHTML += "</li>";
     }
 
-    document.getElementById('resultado').innerHTML = resultado;
+    document.getElementById('resultado').innerHTML = resultadoHTML;
 }
 
 function repassarTaxa() {
